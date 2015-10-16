@@ -22,6 +22,7 @@ public class EventHandler extends Function implements ActionListener{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					g.string.setText("");
+					
 			}
 		});
 		g.passwd.addMouseListener(new MouseAdapter(){
