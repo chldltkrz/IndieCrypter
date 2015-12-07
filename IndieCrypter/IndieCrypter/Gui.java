@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.SystemColor;
 
 public class Gui {
 	// Swing components for building
@@ -21,27 +23,32 @@ public class Gui {
 	JTextArea string, result; // JTExtArea Support multiple line system
 	JButton enc,dec,cop,pas,exp,imp;
 	JLabel stringL,resultL;
+	JScrollPane sPane, rPane;
 	
 	// For stega
 	JTextField source;
-	JButton select, enc1, dec1;
+	JButton select, enc1, dec1, imp1;
+	JScrollPane mPane;
 	JTextArea message;
-	
+	private JLabel label_1;
+
 	//Design of Gui feature
 	public Gui(){
 		frame = new JFrame("IndieCrypter");
+		frame.setBackground(SystemColor.activeCaption);
 		mainPanel = new JPanel();
-		PPanel= new JPanel(new GridLayout(0,1));
+		mainPanel.setBackground(Color.WHITE);
+		tP= new JTabbedPane();
+		tP.setBackground(Color.WHITE);
 
-	//Create new panel to get inputs of passwd and type of cipher
-		
+		PPanel= new JPanel(new GridLayout(0,1));		
 		PPanel.add(new JLabel("Type password!:"));
 		passwd = new JTextField();
 		PPanel.add(passwd);
 		
-		tP= new JTabbedPane();
-		textPenal();
 		stegaPenal();
+		textPenal();
+		
 		mainPanel.setOpaque(true);
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 		mainPanel.setLayout(new BorderLayout(10,10));
@@ -58,6 +65,7 @@ public class Gui {
 	}
 	public void textPenal(){
 		TextPanel= new JPanel();
+		TextPanel.setBackground(Color.WHITE);
 		TextPanel.setLayout(null);
 		
 			string = new JTextArea("String to be Encrypted or Decrypted");
@@ -70,6 +78,8 @@ public class Gui {
 			imp = new JButton("Import");
 			stringL = new JLabel("Input");
 			resultL = new JLabel("En&De coded Text");
+			sPane = new JScrollPane(string);
+			rPane = new JScrollPane(result);
 			
 			result.setEditable(false);
 			resultL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -77,9 +87,8 @@ public class Gui {
 			resultL.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 17));
 			stringL.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 17));
 			
-			
-			string.setBounds(12, 36, 460, 141);
-			result.setBounds(12, 222, 460, 141);
+			sPane.setBounds(12, 36, 460, 141);
+			rPane.setBounds(12, 222, 460, 141);
 			enc.setBounds(12, 373, 330, 30);
 			dec.setBounds(367, 373, 330, 30);	
 			cop.setBounds(542, 36, 120, 30);
@@ -91,8 +100,8 @@ public class Gui {
 			string.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			result.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			
-			TextPanel.add(string);
-			TextPanel.add(result);
+			TextPanel.add(sPane);
+			TextPanel.add(rPane);
 			TextPanel.add(enc);
 			TextPanel.add(dec);
 			TextPanel.add(cop);
@@ -101,34 +110,51 @@ public class Gui {
 			TextPanel.add(imp);
 			TextPanel.add(stringL);
 			TextPanel.add(resultL);
+			
+			label_1 = new JLabel("");
+			Image img = new ImageIcon(this.getClass().getResource("/nsa_logo.jpg")).getImage();
+			label_1.setIcon(new ImageIcon(img));
+			label_1.setBounds(529, 206, 155, 157);
+			TextPanel.add(label_1);
 
 			tP.addTab("Text", TextPanel);
 	}
 	public void stegaPenal(){
 		Stapanel= new JPanel();
+		Stapanel.setBackground(Color.WHITE);
 		Stapanel.setLayout(null);
 		source = new JTextField();
 		source.setEditable(false);
 		message = new JTextArea("Input message or output hidden message");
+		message.setBackground(SystemColor.inactiveCaptionBorder);
+		mPane = new JScrollPane(message);
 		enc1 = new JButton("Encryption");
 		dec1 = new JButton("Decryption");
+		imp1 = new JButton("Import");
 		select = new JButton("Select Img...");
-
+		
 		source.setBounds(12, 36, 417, 30);
-		message.setBounds(12,92,417,250);
-		enc1.setBounds(12,373,330,30);
+		mPane.setBounds(12,92,417,250);
+		enc1.setBounds(12, 373, 330, 30);
 		dec1.setBounds(367,373,330,30);
-		select.setBounds(541,36,128,30);
+		imp1.setBounds(496,87,128,30);
+		select.setBounds(496,35,128,30);
 		message.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		Stapanel.add(source);
-		Stapanel.add(message);
+		Stapanel.add(mPane);
 		Stapanel.add(enc1);
 		Stapanel.add(dec1);
+		Stapanel.add(imp1);
 		Stapanel.add(select);
-
-		tP.addTab("Image", Stapanel);
 		
+		JLabel label = new JLabel("");
+		Image img = new ImageIcon(this.getClass().getResource("/nsa_logo.jpg")).getImage();
+		label.setIcon(new ImageIcon(img));
+		label.setBounds(529, 136, 156, 174);
+		Stapanel.add(label);
+				
+		tP.addTab("Image", Stapanel);
 	}
 	public int Show(){
 		int buffer = JOptionPane.showConfirmDialog(null, PPanel, "PASSWARD",

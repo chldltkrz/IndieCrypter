@@ -4,13 +4,12 @@ import javax.swing.JOptionPane;
 
 
 public class EventHandler extends Function implements ActionListener{
-	Gui g;
+	Gui g = new Gui();
 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	public EventHandler(){
-		g = new Gui();
 		g.enc.addActionListener(this);
 		g.dec.addActionListener(this);
 		g.cop.addActionListener(this);
@@ -20,14 +19,16 @@ public class EventHandler extends Function implements ActionListener{
 		g.select.addActionListener(this);
 		g.enc1.addActionListener(this);
 		g.dec1.addActionListener(this);
-		g.string.addMouseListener(new MouseAdapter(){
+		g.imp1.addActionListener(this);
+		/*g.string.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					g.string.setText("");					
 			}
-		});
+		});*/
 	}
-
+	
+	//I dont know if it is efficient(at least I do) to make ActionListener like this. 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		//Text encryption
@@ -60,17 +61,20 @@ public class EventHandler extends Function implements ActionListener{
 		}
 		else if(source==g.imp){
 			g.string.setText(Import());
-			g.result.setText("String");
+			g.result.setText("Result");
 		}
+		
 		//Steganography
 		else if(source==g.select){
 			g.source.setText(Select());
+			g.message.setText("Input message or output hidden message");
 		}
 		
 		else if(source==g.enc1){
 			if(g.source.getText().length()!=0){
 				if(g.Show()== JOptionPane.OK_OPTION){
 					StegaEnc(g.message.getText(), g.passwd.getText());
+					g.passwd.setText("");
 				}else{
 					JOptionPane.showMessageDialog(null, "Canceled");
 				}
@@ -82,9 +86,14 @@ public class EventHandler extends Function implements ActionListener{
 		else if(source ==g.dec1){
 			if(g.source.getText().length()!=0){
 					g.message.setText(StegaDec());
+					g.passwd.setText("");
 			}else{
 				JOptionPane.showMessageDialog(null, "Please Select An Image File!");
 			}
+		}
+		
+		else if(source == g.imp1){
+			g.message.setText(Import());
 		}
 	}
 }
